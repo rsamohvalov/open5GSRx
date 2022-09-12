@@ -161,8 +161,13 @@ static int pcrf_rx_aar_cb( struct msg **msg, struct avp *avp,
         ogs_assert(ret == 0);
         gx_sid = (os0_t)pcrf_sess_find_by_ipv4(hdr->avp_value->os.data);
         if (!gx_sid) {
+            //Kryptonite
+            //find sesion in PCF
+            //gx_sid = query_session_in_pcf( );
+            //if( !gx_sid ) {
             ogs_warn("Cannot find Gx Sesson for IPv4:%s",
                     OGS_INET_NTOP(hdr->avp_value->os.data, buf));
+            //}
         }
     }
 
@@ -180,8 +185,13 @@ static int pcrf_rx_aar_cb( struct msg **msg, struct avp *avp,
             ogs_assert(paa->len == OGS_IPV6_LEN * 8 /* 128bit */);
             gx_sid = (os0_t)pcrf_sess_find_by_ipv6(paa->addr6);
             if (!gx_sid) {
+                //Kryptonite
+                //find sesion in PCF
+                //gx_sid = query_session_in_pcf( );
+                //if( !gx_sid ) {
                 ogs_warn("Cannot find Gx Sesson for IPv6:%s",
                         OGS_INET6_NTOP(hdr->avp_value->os.data, buf));
+                //}
             }
         }
     }
