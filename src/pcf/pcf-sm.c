@@ -174,32 +174,40 @@ void pcf_state_operational(ogs_fsm_t *s, pcf_event_t *e)
         CASE(OGS_SBI_SERVICE_NAME_NPCF_SMPOLICYCONTROL)
             SWITCH(message.h.resource.component[0])
             CASE(OGS_SBI_RESOURCE_NAME_SM_POLICIES)
-                if (!message.h.resource.component[1]) {
-                    if (message.SmPolicyContextData &&
-                        message.SmPolicyContextData->supi) {
-                        pcf_ue = pcf_ue_find_by_supi(
-                                    message.SmPolicyContextData->supi);
-                        if (!pcf_ue) {
-                            pcf_ue = pcf_ue_add(
-                                        message.SmPolicyContextData->supi);
-                            ogs_assert(pcf_ue);
-                        }
-                        if (message.SmPolicyContextData->pdu_session_id) {
-                            sess = pcf_sess_find_by_psi(pcf_ue, message.
-                                    SmPolicyContextData->pdu_session_id);
-                            if (!sess) {
-                                sess = pcf_sess_add(pcf_ue, message.
-                                    SmPolicyContextData->pdu_session_id);
-                                ogs_assert(sess);
-                                ogs_debug("[%s:%d] PCF session added",
-                                            pcf_ue->supi, sess->psi);
-                            }
+            // Krytponite
+            // AddSessionToDb();
+            //Krytponite
+            if (!message.h.resource.component[1])
+            {
+                if (message.SmPolicyContextData &&
+                    message.SmPolicyContextData->supi)
+                {
+                    pcf_ue = pcf_ue_find_by_supi(
+                        message.SmPolicyContextData->supi);
+                    if (!pcf_ue)
+                    {
+                        pcf_ue = pcf_ue_add(
+                            message.SmPolicyContextData->supi);
+                        ogs_assert(pcf_ue);
+                    }
+                    if (message.SmPolicyContextData->pdu_session_id)
+                    {
+                        sess = pcf_sess_find_by_psi(pcf_ue, message.SmPolicyContextData->pdu_session_id);
+                        if (!sess)
+                        {
+                            sess = pcf_sess_add(pcf_ue, message.SmPolicyContextData->pdu_session_id);
+                            ogs_assert(sess);
+                            ogs_debug("[%s:%d] PCF session added",
+                                      pcf_ue->supi, sess->psi);
                         }
                     }
-                } else {
-                    sess = pcf_sess_find_by_sm_policy_id(
-                            message.h.resource.component[1]);
                 }
+            }
+            else
+            {
+                sess = pcf_sess_find_by_sm_policy_id(
+                    message.h.resource.component[1]);
+            }
                 break;
 
             DEFAULT
