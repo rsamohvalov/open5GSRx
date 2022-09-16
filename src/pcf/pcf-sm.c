@@ -221,7 +221,9 @@ void pcf_state_operational(ogs_fsm_t *s, pcf_event_t *e)
                         &message, "Not found", message.h.uri));
                 break;
             }
-
+            //Kryptonite
+            printf("========== Session notification_uri: %s\n", sess->notification_uri);
+            //
             ogs_assert(OGS_FSM_STATE(&sess->sm));
 
             e->sess = sess;
