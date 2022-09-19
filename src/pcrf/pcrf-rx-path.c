@@ -336,6 +336,10 @@ static int pcrf_rx_aar_cb( struct msg **msg, struct avp *avp,
         fd_msg_browse(avpch1, MSG_BRW_NEXT, &avpch1, NULL);
     }
 
+    //Kryptonite
+    //Send PCF policy authorization
+    //Kryptonite
+
     /* Send Re-Auth Request */
     rv = pcrf_gx_send_rar(gx_sid, sess_data->rx_sid, &rx_message);
     if (rv != OGS_OK) {
