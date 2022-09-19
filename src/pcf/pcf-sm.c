@@ -176,12 +176,26 @@ void pcf_state_operational(ogs_fsm_t *s, pcf_event_t *e)
             CASE(OGS_SBI_RESOURCE_NAME_SM_POLICIES)
             // Krytponite
             // AddSessionToDb();
-            //Krytponite
+            printf("OGS_SBI_RESOURCE_NAME_SM_POLICIES\n");
+            // Krytponite
             if (!message.h.resource.component[1])
             {
                 if (message.SmPolicyContextData &&
                     message.SmPolicyContextData->supi)
                 {
+
+                    // Kryptonite
+                    printf("                               supi: %s\n", message.SmPolicyContextData->supi );
+                    printf("                                dnn: %s\n", message.SmPolicyContextData->dnn);
+                    printf("                   notification_uri: %s\n", message.SmPolicyContextData->notification_uri );
+                    printf("                           rat type: %X\n", message.SmPolicyContextData->rat_type );
+                    printf("                       ipv4_address: %s\n", message.SmPolicyContextData->ipv4_address );
+                    printf("                ipv6_address_prefix: %s\n", message.SmPolicyContextData->ipv6_address_prefix );
+                    printf("                           downlink: %s\n", message.SmPolicyContextData->subs_sess_ambr->downlink );
+                    printf("                           upwnlink: %s\n", message.SmPolicyContextData->subs_sess_ambr->uplink);
+                    printf("\n" );
+                    // Kryptonite
+
                     pcf_ue = pcf_ue_find_by_supi(
                         message.SmPolicyContextData->supi);
                     if (!pcf_ue)
@@ -222,16 +236,15 @@ void pcf_state_operational(ogs_fsm_t *s, pcf_event_t *e)
                 break;
             }
             //Kryptonite
-            printf("========== Session notification_uri: %s\n", sess->notification_uri);
+            /*printf("========== Session notification_uri: %s\n", sess->notification_uri);
             printf("            Session ipv4addr_string: %s\n", sess->ipv4addr_string);
             printf("                       Session supi: %s\n", sess->pcf_ue->supi);
             printf("                     Session method: %s\n", message.h.method);
             printf("                        Session uri: %s\n", message.h.uri);
             printf("               Session service.name: %s\n", message.h.service.name);
             printf("                Session num_of_part: %d\n", message.num_of_part);
-            
             printf("                                dnn: %s\n", message.SmPolicyContextData->dnn);
-            /*
+            
             printf("                   notification_uri: %s\n", message.SmPolicyContextData->notification_uri );
             
             printf("                           rat type: %X\n", message.SmPolicyContextData->rat_type );
