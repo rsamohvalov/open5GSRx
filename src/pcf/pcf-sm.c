@@ -223,6 +223,8 @@ void pcf_state_operational(ogs_fsm_t *s, pcf_event_t *e)
             }
             //Kryptonite
             printf("========== Session notification_uri: %s\n", sess->notification_uri);
+            printf("            Session ipv4addr_string: %s\n", sess->ipv4addr_string);
+            printf("                       Session supi: %s\n", sess->pcf_ue->supi);
             //
             ogs_assert(OGS_FSM_STATE(&sess->sm));
 
