@@ -229,8 +229,9 @@ void pcf_state_operational(ogs_fsm_t *s, pcf_event_t *e)
             printf("                        Session uri: %s\n", message.h.uri);
             printf("               Session service.name: %s\n", message.h.service.name);
             printf("                Session num_of_part: %d\n", message.num_of_part);
-            /*
+            
             printf("                                dnn: %s\n", message.SmPolicyContextData->dnn);
+            /*
             printf("                   notification_uri: %s\n", message.SmPolicyContextData->notification_uri );
             
             printf("                           rat type: %X\n", message.SmPolicyContextData->rat_type );
