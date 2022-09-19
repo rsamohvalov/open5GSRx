@@ -225,6 +225,12 @@ void pcf_state_operational(ogs_fsm_t *s, pcf_event_t *e)
             printf("========== Session notification_uri: %s\n", sess->notification_uri);
             printf("            Session ipv4addr_string: %s\n", sess->ipv4addr_string);
             printf("                       Session supi: %s\n", sess->pcf_ue->supi);
+            printf("                     Session method: %s\n", message.h.method);
+            printf("                        Session uri: %s\n", message.h.uri);
+            printf("               Session service.name: %s\n", message.h.service.name);
+            printf("                Session num_of_part: %d\n", message.num_of_part);
+            printf("                       Session sdnn: %s\n", sess->dnn);
+            printf("\n");
             //
             ogs_assert(OGS_FSM_STATE(&sess->sm));
 
