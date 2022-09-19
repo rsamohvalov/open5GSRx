@@ -229,7 +229,13 @@ void pcf_state_operational(ogs_fsm_t *s, pcf_event_t *e)
             printf("                        Session uri: %s\n", message.h.uri);
             printf("               Session service.name: %s\n", message.h.service.name);
             printf("                Session num_of_part: %d\n", message.num_of_part);
-            printf("                       Session sdnn: %s\n", sess->dnn);
+            printf("                                dnn: %s\n", message.SmPolicyContextData->dnn);
+            printf("                   notification_uri: %s\n", message.SmPolicyContextData->notification_uri );
+            printf("                           rat type: %s\n", message.SmPolicyContextData->rat_type );
+            printf("                       ipv4_address: %s\n", message.SmPolicyContextData->ipv4_address );
+            printf("                ipv6_address_prefix: %s\n", message.SmPolicyContextData->ipv6_address_prefix );
+            printf("                           downlink: %s\n", message.SmPolicyContextData->subs_sess_ambr->downlink );
+            printf("                           upwnlink: %s\n", message.SmPolicyContextData->subs_sess_ambr->uplink);
             printf("\n");
             //
             ogs_assert(OGS_FSM_STATE(&sess->sm));
