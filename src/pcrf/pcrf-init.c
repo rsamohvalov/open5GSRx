@@ -20,6 +20,9 @@
 #include "pcrf-context.h"
 #include "pcrf-fd-path.h"
 
+//Kryptonite
+#include "../tests/af/init.h"
+
 static int initialized = 0;
 
 int pcrf_initialize(void)
@@ -41,6 +44,11 @@ int pcrf_initialize(void)
     rv = pcrf_fd_init();
     if (rv != OGS_OK) return OGS_ERROR;
 
+    //Kryptonite
+    rv = af_initialize();
+    ogs_assert(rv == OGS_OK);
+    // Kryptonite
+
     initialized = 1;
 
     return OGS_OK;
@@ -54,6 +62,10 @@ void pcrf_terminate(void)
 
     ogs_dbi_final();
     pcrf_context_final();
+
+    // Kryptonite
+    af_terminate();
+    // Kryptonite
 
     return;
 }

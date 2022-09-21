@@ -24,6 +24,7 @@ libpcrf_sources = files('''
     pcrf-fd-path.c
     pcrf-gx-path.c
     pcrf-rx-path.c
+    
 '''.split())
 
 libpcrf = static_library('pcrf',
@@ -31,7 +32,8 @@ libpcrf = static_library('pcrf',
     dependencies : [libapp_dep,
                     libdbi_dep,
                     libdiameter_rx_dep,
-                    libdiameter_gx_dep],
+                    libdiameter_gx_dep,
+                    libaf_dep],
     install : false)
 
 libpcrf_dep = declare_dependency(
@@ -39,17 +41,19 @@ libpcrf_dep = declare_dependency(
     dependencies : [libapp_dep,
                     libdbi_dep,
                     libdiameter_rx_dep,
-                    libdiameter_gx_dep])
+                    libdiameter_gx_dep,
+                    libaf_dep])
 
 pcrf_sources = files('''
     app-init.c
     ../main.c
 '''.split())
 
+
 executable('open5gs-pcrfd',
     sources : pcrf_sources,
     c_args : '-DDEFAULT_CONFIG_FILENAME="@0@/pcrf.yaml"'.format(open5gs_sysconfdir),
     include_directories : srcinc,
-    dependencies : libpcrf_dep,
+    dependencies : [libpcrf_dep],
     install_rpath : libdir,
     install : true)

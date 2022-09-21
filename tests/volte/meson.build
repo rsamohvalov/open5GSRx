@@ -34,6 +34,6 @@ testapp_volte_exe = executable('volte',
     sources : testapp_volte_sources,
     c_args : [testunit_core_cc_flags,
         '-DFD_EXT_DIR="@0@"'.format(freediameter_extensions_builddir)],
-    dependencies : libtestepc_dep)
+    dependencies : [libtestepc_dep, libaf_dep])
 
 test('volte', testapp_volte_exe, is_parallel : false, suite: 'epc')
