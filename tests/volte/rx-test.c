@@ -3108,12 +3108,12 @@ abts_suite *test_rx(abts_suite *suite)
     suite = ADD_SUITE(suite)
 
     abts_run_test(suite, test1_func, NULL);
-    abts_run_test(suite, test2_func, NULL);
+    /*abts_run_test(suite, test2_func, NULL);
     abts_run_test(suite, test3_func, NULL);
     abts_run_test(suite, test4_func, NULL);
     abts_run_test(suite, test5_func, NULL);
     abts_run_test(suite, test6_func, NULL);
-    abts_run_test(suite, test7_func, NULL);
+    abts_run_test(suite, test7_func, NULL);*/
 
     return suite;
 }

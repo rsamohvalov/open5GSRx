@@ -1,0 +1,16 @@
+killall -9 open5gs-mmed
+killall -9 open5gs-amfd
+killall -9 open5gs-sgwcd
+killall -9 open5gs-sgwud
+killall -9 open5gs-smfd
+killall -9 open5gs-upfd
+killall -9 open5gs-hssd
+killall -9 open5gs-umdd
+killall -9 open5gs-udrd
+killall -9 open5gs-pcrfd
+killall -9 open5gs-pcfd
+killall -9 open5gs-nrfd
+killall -9 open5gs-scpd
+killall -9 open5gs-bsfd
+killall -9 open5gs-ausfd
+killall -9 open5gs-nssfd

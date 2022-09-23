@@ -20,6 +20,8 @@
 #include "pcrf-context.h"
 #include "pcrf-fd-path.h"
 
+#include "../af/context.h"
+
 struct sess_state {
     os0_t   rx_sid;             /* Rx Session-Id */
     os0_t   gx_sid;             /* Gx Session-Id */
@@ -109,6 +111,12 @@ static int pcrf_rx_aar_cb( struct msg **msg, struct avp *avp,
     os0_t gx_sid = NULL;
     uint32_t result_code = OGS_DIAM_RX_DIAMETER_IP_CAN_SESSION_NOT_AVAILABLE;
 
+    //Kryptonite
+    char imsi[20] = {0};
+    char dnn[128] = {0};
+    ogs_ip_t ueIp;
+    // Kryptonite
+
     ogs_debug("[PCRF] AA-Request");
 
     ogs_assert(msg);
@@ -160,14 +168,15 @@ static int pcrf_rx_aar_cb( struct msg **msg, struct avp *avp,
         ret = fd_msg_avp_hdr(avp, &hdr);
         ogs_assert(ret == 0);
         gx_sid = (os0_t)pcrf_sess_find_by_ipv4(hdr->avp_value->os.data);
-        if (!gx_sid) {
-            //Kryptonite
-            //find sesion in PCF
-            //gx_sid = query_session_in_pcf( );
-            //if( !gx_sid ) {
+        // Kryptonite
+        memcpy(&(ueIp.addr), hdr->avp_value->os.data, hdr->avp_value->os.len );
+        ueIp.len = hdr->avp_value->os.len;
+        ueIp.ipv4 = 1;
+        // Kryptonite
+        if (!gx_sid)
+        {
             ogs_warn("Cannot find Gx Sesson for IPv4:%s",
                     OGS_INET_NTOP(hdr->avp_value->os.data, buf));
-            //}
         }
     }
 
@@ -185,13 +194,13 @@ static int pcrf_rx_aar_cb( struct msg **msg, struct avp *avp,
             ogs_assert(paa->len == OGS_IPV6_LEN * 8 /* 128bit */);
             gx_sid = (os0_t)pcrf_sess_find_by_ipv6(paa->addr6);
             if (!gx_sid) {
-                //Kryptonite
-                //find sesion in PCF
-                //gx_sid = query_session_in_pcf( );
-                //if( !gx_sid ) {
+                                //  Kryptonite
+                memcpy(ueIp.addr6, hdr->avp_value->os.data, hdr->avp_value->os.len);
+                ueIp.len = hdr->avp_value->os.len;
+                ueIp.ipv6 = 1;
+                // Kryptonite
                 ogs_warn("Cannot find Gx Sesson for IPv6:%s",
-                        OGS_INET6_NTOP(hdr->avp_value->os.data, buf));
-                //}
+                         OGS_INET6_NTOP(hdr->avp_value->os.data, buf));
             }
         }
     }
@@ -336,9 +345,42 @@ static int pcrf_rx_aar_cb( struct msg **msg, struct avp *avp,
         fd_msg_browse(avpch1, MSG_BRW_NEXT, &avpch1, NULL);
     }
 
-    //Kryptonite
-    //Send PCF policy authorization
-    //Kryptonite
+    // Kryptonite
+    // Send PCF policy authorization
+    // Kryptonite
+    af_sess_t *af_sess = NULL;
+    //af_npcf_policyauthorization_param_t af_param;
+
+    /* Add AF-Session */
+    printf("-------------- ADD SESSION BY UE IP %X %X!!\n", ueIp.ipv4, ueIp.addr );
+    af_sess = af_sess_add_by_ue_address(&ueIp);
+    ogs_assert(af_sess);
+
+    /*af_sess->supi = ogs_strdup(imsi);
+    ogs_assert(af_sess->supi);
+
+    af_sess->dnn = ogs_strdup(dnn);
+    ogs_assert(af_sess->dnn);
+
+    af_local_discover_and_send(
+        OGS_SBI_SERVICE_TYPE_NBSF_MANAGEMENT,
+        af_sess, NULL,
+        af_nbsf_management_build_discover);
+
+    /* Wait for PCF-Discovery *
+    ogs_msleep(100);
+
+    /* Send AF-Session : CREATE 
+    memset(&af_param, 0, sizeof(af_param));
+    af_param.med_type = OpenAPI_media_type_AUDIO;
+    af_param.qos_type = 1;
+    af_param.flow_type = 99; 
+
+    af_local_send_to_pcf(af_sess, &af_param,
+                         af_npcf_policyauthorization_build_create);
+                         */
+    // Kryptonite
+    // Kryptonite
 
     /* Send Re-Auth Request */
     rv = pcrf_gx_send_rar(gx_sid, sess_data->rx_sid, &rx_message);

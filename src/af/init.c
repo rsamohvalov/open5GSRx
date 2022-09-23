@@ -29,6 +29,8 @@ int af_initialize()
 {
     int rv;
 
+    printf("af_initialize\n");
+
     ogs_sbi_context_init();
 
     af_context_init();
@@ -50,6 +52,8 @@ int af_initialize()
     if (!thread) return OGS_ERROR;
 
     initialized = 1;
+
+    printf("af_initialize exit\n");
 
     return OGS_OK;
 }
